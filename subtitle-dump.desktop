@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=Subtitle Dump
+Comment=Dump all subtitles from video file
+Icon=application-x-subrip
+Exec=subtitle-dump.sh
+Terminal=false
+Categories=AudioVideo;Video;Player;TV;
+MimeType=application/ogg;application/x-ogg;application/mxf;application/sdp;application/smil;application/x-smil;application/streamingmedia;application/x-streamingmedia;application/vnd.rn-realmedia;application/vnd.rn-realmedia-vbr;video/mpeg;video/x-mpeg2;video/x-mpeg3;video/mp4v-es;video/x-m4v;video/mp4;application/x-extension-mp4;video/divx;video/vnd.divx;video/msvideo;video/x-msvideo;video/ogg;video/quicktime;video/vnd.rn-realvideo;video/x-ms-afs;video/x-ms-asf;application/vnd.ms-asf;video/x-ms-wmv;video/x-ms-wmx;video/x-ms-wvxvideo;video/x-avi;video/avi;video/x-flic;video/fli;video/x-flc;video/flv;video/x-flv;video/x-theora;video/x-theora+ogg;video/x-matroska;video/mkv;application/x-matroska;video/webm;video/x-ogm;video/x-ogm+ogg;application/x-ogm;application/x-ogm-application/x-ogm-video;application/x-shorten;video/mp2t;application/x-mpegurl;video/vnd.mpegurl;application/vnd.apple.mpegurl;video/3gp;video/3gpp;video/3gpp2;video/dv;application/x-cue;
