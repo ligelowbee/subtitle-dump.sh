@@ -1,5 +1,5 @@
 #!/bin/bash
-# subtitle-dumb.sh dumps all subtitle tracks from a video file
+# subtitle-dump.sh dumps all subtitle tracks from a video file
 # uses ffmpeg and zenity
 
 vidname="$1"
