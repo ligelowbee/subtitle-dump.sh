@@ -4,7 +4,8 @@
 
 vidname="$1"
 if [ -z "$vidname" ]; then
-    vidname="$(zenity --title="${0##*/}: Select a Video File" --file-selection)"
+    vidname="$(zenity --title="${0##*/}: Select a Video File" \
+        --file-selection)"
     ui="yes"
 fi
 
@@ -12,7 +13,10 @@ fi
 
 # get subs in idx,lang space separated list 
 # awk 'NF' gets rid of empty lines
-subs=$(ffprobe -select_streams s -show_entries "stream=index:tags=language" -of "csv=nokey=1:print_section=0" "$vidname" 2>/dev/null | awk 'NF' );
+subs="$(ffprobe -hide_banner -select_streams s \
+    -show_entries "stream=index:tags=language" \
+    -of "csv=p=0" "$vidname" | awk 'NF' )"
+
 if [ -z "$subs" ]; then
     msg="Error, no subs found in file:\n $vidname"
     if [ "$ui" = "yes" ]; then
@@ -23,6 +27,7 @@ if [ -z "$subs" ]; then
     exit
 fi
 
+echo "Extracting subtitles..."
 for stream in $subs; do 
     idx=${stream%%,*}
     lang=${stream##*,}
@@ -32,4 +37,5 @@ for stream in $subs; do
     subfiles+="\n$subfile"
 done
 
-[ "$ui" = "yes" ] && zenity --title "${0##*/}" --info --text "Created:$subfiles"
+[ "$ui" = "yes" ] && zenity --title "${0##*/}" --info \
+    --text "Extracted subtitles:$subfiles"
