@@ -1,17 +1,18 @@
 #!/bin/bash
-# subtitle-dump.sh dumps all subtitle tracks from a video file
+# subtitle-dumb.sh dumps all subtitle tracks from a video file
 # uses ffmpeg and zenity
 
 vidname="$1"
 if [ -z "$vidname" ]; then
-    vidname="$(zenity --title="Select video file to extract subtitles from:" --file-selection)"
+    vidname="$(zenity --title="${0##*/}: Select a Video File" --file-selection)"
     ui="yes"
 fi
 
 [ -z "$vidname" ] && exit
 
 # get subs in idx,lang space separated list 
-subs=$(ffprobe -select_streams s -show_entries "stream=index:tags=language" -of "csv=nokey=1:print_section=0" "$vidname" 2>/dev/null);
+# awk 'NF' gets rid of empty lines
+subs=$(ffprobe -select_streams s -show_entries "stream=index:tags=language" -of "csv=nokey=1:print_section=0" "$vidname" 2>/dev/null | awk 'NF' );
 if [ -z "$subs" ]; then
     msg="Error, no subs found in file:\n $vidname"
     if [ "$ui" = "yes" ]; then
@@ -21,6 +22,7 @@ if [ -z "$subs" ]; then
     fi
     exit
 fi
+
 for stream in $subs; do 
     idx=${stream%%,*}
     lang=${stream##*,}
