@@ -29,18 +29,24 @@ for s in $subs; do
     [[ $L == $I ]] && L="und"
     items+="$I $L "
 done
-read -r idx lang < <(zenity $zenityopts --height 450 --list \
+sel=$(zenity $zenityopts --height 450 --list \
     --text "${vidpath##*/}\nSelect a subtitle to extract:" \
-    --print-column=ALL --separator=" " --hide-column 1 \
+    --multiple --print-column=ALL --separator=" " --hide-column 1 \
     --column "idx" --column "Language" \
-    $items)
-[ -z "$idx" ] && exit
+    $items) 
+[ -z "$sel" ] && exit
 
-subfile="${vidpath%.???}_$lang.srt"
+set -- $sel
+while (( $# )); do
+    idx=$1
+    lang=$2
+    shift 2
+    subfile="${vidpath%.???}_$lang.srt"
+    ffmpeg -y -hide_banner -v 8 -i "$vidpath" -c copy -map 0:$idx "$subfile"
+    extracted+="\n$subfile"
+done
 
-ffmpeg -y -hide_banner -v 8 -i "$vidpath" -c copy -map 0:$idx "$subfile"
-
-zenity $zenityopts --info --text "Extracted file:\n$subfile"
+zenity $zenityopts --info --text "Extracted file:$extracted"
 
 xdg-open $(dirname "$subfile")
 
