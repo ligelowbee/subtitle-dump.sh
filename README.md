@@ -3,4 +3,4 @@ Uses ffmpeg and zenity.
 
 `subtitle-dump.sh` will present a file selector and pull all subtitles from a selected video file.
 
-`subtitle-extract.sh` lists what subtitles are present in a video file and extracts the one selected.
+`subtitle-extract.sh` lists what subtitles are present in a video file and extracts the selected ones.
