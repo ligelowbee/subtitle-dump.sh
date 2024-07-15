@@ -13,9 +13,9 @@ fi
 
 # get subs in idx,lang space separated list 
 # awk 'NF' gets rid of empty lines
-subs="$(ffprobe -hide_banner -select_streams s \
-    -show_entries "stream=index:tags=language" \
-    -of "csv=p=0" "$vidname" | awk 'NF' )"
+subs=$(ffprobe -v 8 -hide_banner -select_streams s \
+    -show_entries "stream=index:steam_tags=language" \
+    -of "csv=p=0" "$vidname")
 
 if [ -z "$subs" ]; then
     msg="Error, no subs found in file:\n $vidname"
