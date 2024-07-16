@@ -1,5 +1,5 @@
 #!/bin/bash
-# script needs zenity, ffmpeg, xdg-open
+# script needs zenity, ffmpeg
 # extract a selected subtitle from file
 
 zenityopts="--title=${0##*/} "
