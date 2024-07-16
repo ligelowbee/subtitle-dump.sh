@@ -41,12 +41,12 @@ while (( $# )); do
     idx=$1
     lang=$2
     shift 2
-    subfile="${vidpath%.???}_$lang.srt"
-    ffmpeg -y -hide_banner -v 8 -i "$vidpath" -c copy -map 0:$idx "$subfile"
+    zenity $zenityopts --timeout 2 --info \
+       --text "One moment, extracting:\n$subfile" &
+    subfile="${vidpath%.???}_${idx}_${lang}.srt"
+    ffmpeg -v 8 -y -hide_banner -i "$vidpath" -map 0:$idx "$subfile"
     extracted+="\n$subfile"
 done
 
 zenity $zenityopts --info --text "Extracted file:$extracted"
-
-xdg-open $(dirname "$subfile")
 

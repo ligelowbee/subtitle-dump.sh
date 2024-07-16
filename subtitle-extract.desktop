@@ -2,7 +2,7 @@
 Type=Application
 Name=Subtitle Extract
 Comment=Extract subtitles from video file
-Icon=gnome-subtitles
+Icon=application-x-subrip
 Exec=subtitle-extract.sh %U
 Terminal=false
 Categories=AudioVideo;Video;Player;TV;
