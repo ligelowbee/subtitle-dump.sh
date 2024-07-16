@@ -16,8 +16,12 @@ subs=$(ffprobe -v 8 -hide_banner -select_streams s \
     -show_entries "stream=index:stream_tags=language" \
     -of "csv=p=0" "$vidpath")
 
+# Pango clean vidname for zenity, just in case
+vidname="${vidpath//&/&amp;}"
+vidname="${vidname//</&lt;}"
+vidname="${vidname//>/&gt;}"
 if [ -z "$subs" ]; then
-    zenity $zenityopts --error --text "No subtitles found in:\n$vidpath"
+    zenity $zenityopts --error --text "No subtitles found in:\n$vidname"
     exit
 fi
 
@@ -30,22 +34,24 @@ for s in $subs; do
     items+="$I $L "
 done
 sel=$(zenity $zenityopts --height 450 --list \
-    --text "${vidpath##*/}\nSelect a subtitle to extract:" \
+    --text "${vidname##*/}\nSelect a subtitle to extract:" \
     --multiple --print-column=ALL --separator=" " --hide-column 1 \
     --column "idx" --column "Language" \
     $items) 
 [ -z "$sel" ] && exit
+
+zenity $zenityopts --timeout 3 --info \
+   --text "One moment, extracting...\n$sel" &
 
 set -- $sel
 while (( $# )); do
     idx=$1
     lang=$2
     shift 2
-    zenity $zenityopts --timeout 2 --info \
-       --text "One moment, extracting:\n$subfile" &
     subfile="${vidpath%.???}_${idx}_${lang}.srt"
     ffmpeg -v 8 -y -hide_banner -i "$vidpath" -map 0:$idx "$subfile"
-    extracted+="\n$subfile"
+    # Pango safe subnames for zenity
+    extracted+="\n${vidname%.???}_${idx}_${lang}.srt"
 done
 
 zenity $zenityopts --info --text "Extracted file:$extracted"
