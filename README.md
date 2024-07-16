@@ -1,6 +1,6 @@
-A couple of Bash shell scripts to pull subtitles from video files.
+A couple of Bash shell scripts to extract subtitles from video files in srt format.
 Uses ffmpeg and zenity.
 
-`subtitle-dump.sh` will present a file selector and pull all subtitles from a selected video file.
+`subtitle-dump.sh` attempts to extract all subtitles to srt.
 
-`subtitle-extract.sh` lists what subtitles are present in a video file and extracts the selected ones.
+`subtitle-extract.sh` presents all subtitles in file and extracts selected to srt format.
