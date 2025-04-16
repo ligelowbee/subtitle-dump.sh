@@ -30,8 +30,11 @@ items=""
 for s in $subs; do
     I=$(cut -d ',' -f 1 <<< "$s")
     C=$(cut -d ',' -f 2 <<< "$s")
+    if [[ "$C" =~ (dvd_subtitle|hdmv_pgs_subtitle) ]]; then
+        C="${C}(image)"
+    fi
     L=$(cut -d ',' -f 3 <<< "$s")
-    [ -z "$L" ] && L="und"
+    [ -z "$L" ] && L="UND"
     items+="$I $C $L "
 done
 sel=$(zenity $zenityopts --height 450 --list \
@@ -52,7 +55,7 @@ while (( $# )); do
     shift 3
     subfile="${vidpath%.???}_${idx}_${lang}.srt"
     ffmpeg -v 8 -y -hide_banner -i "$vidpath" -map 0:$idx "$subfile"
-    # Pango safe subnames for zenity
+    # use Pango safe vidname for zenity
     extracted+="\n${vidname%.???}_${idx}_${lang}.srt"
 done
 
